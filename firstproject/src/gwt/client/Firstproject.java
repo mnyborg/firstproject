@@ -3,8 +3,6 @@ package gwt.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -17,56 +15,84 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class Firstproject implements EntryPoint {
 
+	// data
+	String data;
+	
+	//data label
+	Label lblNameData = new Label("");
+
+
+	// page one panel
+	private HorizontalPanel pageOnePanel = new HorizontalPanel();
+
+
+	// page two panel
+	private VerticalPanel pageTwoPanel = new VerticalPanel();
+
+
+	// start method
 	public void onModuleLoad() {
 
+		// data 
 		String navn;
 
-		final VerticalPanel vPanel = new VerticalPanel();
-		HorizontalPanel hPanel = new HorizontalPanel();
 
+		// build page one panel
 		Label lblName = new Label("Indtast navn: ");
-		TextBox txtName = new TextBox();
-
+		final TextBox txtName = new TextBox();
 		Button btnOk = new Button("Ok");
 
-		hPanel.add(lblName);
-		hPanel.add(txtName);
-		hPanel.add(btnOk);
+		pageOnePanel.add(lblName);
+		pageOnePanel.add(txtName);
+		pageOnePanel.add(btnOk);
 
+		// show page one
+		showPageOne();
 
-		RootPanel.get().add(hPanel);
-
-
+		// build page two panel
 		Label lblNameInput = new Label("Du indtastede: ");
+			Button btnBack = new Button("Tilbage");
 
-		Button btnBack = new Button("Tilbage");
-		
-		vPanel.add(lblNameInput);
-		vPanel.add(btnBack);
+		pageTwoPanel.add(lblNameInput);
+		pageTwoPanel.add(lblNameData);
+		pageTwoPanel.add(btnBack);
 
 
+		// add click handlers
 		btnOk.addClickHandler(new ClickHandler() {
-
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.alert("OK clicked");
-				RootPanel.get().clear();
-				
-				RootPanel.get().add(vPanel);
-				
-				
+				data = txtName.getText();
+				showPageTwo(data); 	
 			}
 		});
-	}
-
-	
-	public void showPage1() {
+		
+		btnBack.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				showPageOne(); 	
+			}
+		});
 		
 	}
 
-	
-	public void showPage2() {
+
+	public void showPageOne() {
+
+		RootPanel.get().clear();
+		RootPanel.get().add(pageOnePanel);
 		
+	}
+
+
+	public void showPageTwo(String data) {
+		// set data 
+		lblNameData.setText(data);
+		
+		RootPanel.get().clear();
+		RootPanel.get().add(pageTwoPanel);
+		
+
 	}
 }
 
